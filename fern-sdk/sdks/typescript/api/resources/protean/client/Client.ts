@@ -8,16 +8,16 @@ import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCode
 import * as errors from "../../../../errors/index.js";
 import type * as SandboxApi from "../../../index.js";
 
-export declare namespace KycClient {
+export declare namespace ProteanClient {
     export type Options = BaseClientOptions;
 
     export interface RequestOptions extends BaseRequestOptions {}
 }
 
-export class KycClient {
-    protected readonly _options: NormalizedClientOptionsWithAuth<KycClient.Options>;
+export class ProteanClient {
+    protected readonly _options: NormalizedClientOptionsWithAuth<ProteanClient.Options>;
 
-    constructor(options: KycClient.Options) {
+    constructor(options: ProteanClient.Options) {
         this._options = normalizeClientOptionsWithAuth(options);
     }
 
@@ -25,10 +25,10 @@ export class KycClient {
      * Verifies Bank Account through Penny Drop, PennyLess and Hybrid.
      *
      * @param {SandboxApi.VerifyBankAccountRequest} request
-     * @param {KycClient.RequestOptions} requestOptions - Request-specific configuration.
+     * @param {ProteanClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @example
-     *     await client.kyc.verifyBankAccount({
+     *     await client.protean.verifyBankAccount({
      *         entityId: "78bea7b4-1caf-4528-96e4-ec7f9f43f0db",
      *         programId: "310",
      *         requestId: "{{requestId}}",
@@ -39,14 +39,14 @@ export class KycClient {
      */
     public verifyBankAccount(
         request: SandboxApi.VerifyBankAccountRequest,
-        requestOptions?: KycClient.RequestOptions,
+        requestOptions?: ProteanClient.RequestOptions,
     ): core.HttpResponsePromise<SandboxApi.VerifyBankAccountResponse> {
         return core.HttpResponsePromise.fromPromise(this.__verifyBankAccount(request, requestOptions));
     }
 
     private async __verifyBankAccount(
         request: SandboxApi.VerifyBankAccountRequest,
-        requestOptions?: KycClient.RequestOptions,
+        requestOptions?: ProteanClient.RequestOptions,
     ): Promise<core.WithRawResponse<SandboxApi.VerifyBankAccountResponse>> {
         const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(

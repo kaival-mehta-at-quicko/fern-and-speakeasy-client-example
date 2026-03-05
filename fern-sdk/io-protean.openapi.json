@@ -1,16 +1,13 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "io-protean",
+    "title": "in-co-sandbox-kyc",
     "description": "",
     "version": "1.0.0"
   },
   "tags": [
     {
-      "name": "kyc"
-    },
-    {
-      "name": "bank"
+      "name": "protean"
     }
   ],
   "paths": {
@@ -21,8 +18,7 @@
         "description": "Verifies Bank Account through Penny Drop, PennyLess and Hybrid.",
         "operationId": "verifyBankAccount",
         "tags": [
-          "kyc",
-          "bank"
+          "protean"
         ],
         "parameters": [
           {
@@ -98,10 +94,10 @@
                   }
                 },
                 "required": [
+                  "entityId",
                   "programId",
                   "requestId",
-                  "txnType",
-                  "entityId"
+                  "txnType"
                 ]
               },
               "example": {
@@ -207,90 +203,6 @@
   "webhooks": {},
   "components": {
     "schemas": {},
-    "responses": {
-      "Forbidden": {
-        "description": "",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "type": "integer"
-                },
-                "message": {
-                  "type": "string"
-                },
-                "timestamp": {
-                  "type": "integer"
-                },
-                "transaction_id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "code",
-                "message",
-                "timestamp",
-                "transaction_id"
-              ]
-            },
-            "examples": {
-              "Example 1": {
-                "summary": "Example 1",
-                "value": {
-                  "code": 403,
-                  "message": "Insufficient privilege",
-                  "timestamp": 1769086379555,
-                  "transaction_id": "2e918bdd-2d06-411b-b1a4-c20c95149737"
-                }
-              }
-            }
-          }
-        }
-      },
-      "Unauthorized": {
-        "description": "",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "code": {
-                  "type": "integer"
-                },
-                "message": {
-                  "type": "string"
-                },
-                "timestamp": {
-                  "type": "integer"
-                },
-                "transaction_id": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "code",
-                "message",
-                "timestamp",
-                "transaction_id"
-              ]
-            },
-            "examples": {
-              "Example 1": {
-                "summary": "Example 1",
-                "value": {
-                  "code": 401,
-                  "message": "Unauthorized",
-                  "timestamp": 1769086427379,
-                  "transaction_id": "ccfc9b5a-bdd1-4baf-9a9a-443b603225cf"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "securitySchemes": {
       "bearer": {
         "type": "http",
@@ -298,6 +210,5 @@
       }
     }
   },
-  "servers": [],
-  "security": []
+  "servers": []
 }

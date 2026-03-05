@@ -1,3 +1,3 @@
-export * from "./kyc/client/requests/index.js";
-export * as kyc from "./kyc/index.js";
-export * from "./kyc/types/index.js";
+export * from "./protean/client/requests/index.js";
+export * as protean from "./protean/index.js";
+export * from "./protean/types/index.js";
