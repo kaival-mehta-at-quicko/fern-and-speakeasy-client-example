@@ -1,0 +1,37 @@
+speakeasyVersion: 1.738.0
+sources:
+    in-co-sandbox-kyc:
+        sourceNamespace: in-co-sandbox-kyc
+        sourceRevisionDigest: sha256:3df9253021dd49feaa01200e32845a56a40956966422187427cffcf3703d1a0d
+        sourceBlobDigest: sha256:47bc94bab1f1ee763b26755e1af0376610b19c223bcd04d3d219f00d236a687c
+        tags:
+            - latest
+            - 1.0.0
+targets:
+    protean:
+        source: in-co-sandbox-kyc
+        sourceNamespace: in-co-sandbox-kyc
+        sourceRevisionDigest: sha256:3df9253021dd49feaa01200e32845a56a40956966422187427cffcf3703d1a0d
+        sourceBlobDigest: sha256:47bc94bab1f1ee763b26755e1af0376610b19c223bcd04d3d219f00d236a687c
+        codeSamplesNamespace: in-co-sandbox-kyc-typescript-code-samples
+        codeSamplesRevisionDigest: sha256:d7ab729561db89e8248ad897917a9d96754531f3cb1ab08acca97d70ea43d53a
+workflow:
+    workflowVersion: 1.0.0
+    speakeasyVersion: latest
+    sources:
+        in-co-sandbox-kyc:
+            inputs:
+                - location: ..\..\openapi\io-protean.openapi.json
+            output: .speakeasy/out.openapi.yaml
+            registry:
+                location: registry.speakeasyapi.dev/sandbox-dn/myworkspace/in-co-sandbox-kyc
+    targets:
+        protean:
+            target: typescript
+            source: in-co-sandbox-kyc
+            codeSamples:
+                registry:
+                    location: registry.speakeasyapi.dev/sandbox-dn/myworkspace/in-co-sandbox-kyc-typescript-code-samples
+                labelOverride:
+                    fixedValue: Typescript (SDK)
+                blocking: false

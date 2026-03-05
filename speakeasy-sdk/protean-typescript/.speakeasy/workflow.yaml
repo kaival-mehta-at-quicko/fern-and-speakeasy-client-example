@@ -1,0 +1,19 @@
+workflowVersion: 1.0.0
+speakeasyVersion: latest
+sources:
+    in-co-sandbox-kyc:
+        inputs:
+            - location: ..\..\openapi\io-protean.openapi.json
+        output: .speakeasy/out.openapi.yaml
+        registry:
+            location: registry.speakeasyapi.dev/sandbox-dn/myworkspace/in-co-sandbox-kyc
+targets:
+    protean:
+        target: typescript
+        source: in-co-sandbox-kyc
+        codeSamples:
+            registry:
+                location: registry.speakeasyapi.dev/sandbox-dn/myworkspace/in-co-sandbox-kyc-typescript-code-samples
+            labelOverride:
+                fixedValue: Typescript (SDK)
+            blocking: false
