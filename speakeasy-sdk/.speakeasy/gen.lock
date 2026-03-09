@@ -1,16 +1,16 @@
 lockVersion: 2.0.0
-id: 22d4ebea-db03-4002-bd44-1df597f0ac8a
+id: ec3888bc-35b7-4ccd-bef5-e7ae7e21bf94
 management:
-  docChecksum: 56eb71d6bed5c154b1660dc2047fc429
+  docChecksum: 4c17b0cd94868f3b52b5af45cb04ae05
   docVersion: 1.0.0
   speakeasyVersion: 1.738.0
   generationVersion: 2.845.21
   releaseVersion: 0.0.1
   configChecksum: 5ad4bab1ed2182552006dfbc435dde51
 persistentEdits:
-  generation_id: 144e52ce-44c5-4fc4-9908-668a71c2c38e
-  pristine_commit_hash: cdb27e93fd4a4c76df3cc5a5d9b60cae687d524e
-  pristine_tree_hash: d21069f3c772b8527a4b6c1dad6e28265af601cd
+  generation_id: 262afb61-d677-42ed-b4f8-ba0f9fb6dd43
+  pristine_commit_hash: 7549c37e52842252cd3ce99a8348a2da1c5c405f
+  pristine_tree_hash: da8d484dabae1a7ab7b6200295a9ad9b46fc1960
 features:
   typescript:
     additionalDependencies: 0.1.0
@@ -63,6 +63,10 @@ trackedFiles:
     id: 0ce9707cb848
     last_write_checksum: sha1:bc4454e196fcd219f5a78da690375a884f5ed07b
     pristine_git_object: 08f95f4552349360b2c0b01802aa71ec3a55d2c2
+  docs/models/errors/error-schema.md:
+    id: 80f849cd4492
+    last_write_checksum: sha1:d339ec92c39d2270d5bcfc6246b30df213894682
+    pristine_git_object: b655db02bf43353a371b58154e0228d10cb3eb04
   docs/models/operations/verify-bank-account-request-body.md:
     id: bf6ba96049a3
     last_write_checksum: sha1:72b20e33f4c473bb6c58c9efb3d0b6f9a2c5e1f3
@@ -81,8 +85,8 @@ trackedFiles:
     pristine_git_object: 307a1808c5e8c0a095f58ecb88064b5addeeb5ad
   docs/sdks/protean2/README.md:
     id: 086521cf024b
-    last_write_checksum: sha1:0c3855ba008b969395bca8f57fa65bc1d05860ee
-    pristine_git_object: eedcb9631a8782a835c84492279c14832dce655c
+    last_write_checksum: sha1:36c7a4d00f631aefbf5dd00e8461788bad6f717f
+    pristine_git_object: 7b988783a2ecbe5f40e392043f6d560f910a5e12
   eslint.config.mjs:
     id: 461c8d07f6da
     last_write_checksum: sha1:9398f326377fe47f67af2df6eb6370750c0790b4
@@ -117,8 +121,8 @@ trackedFiles:
     pristine_git_object: 990881beacc2299ae511cf5c0018811922808ed1
   src/funcs/protean-verify-bank-account.ts:
     id: 3b98dde0d2f0
-    last_write_checksum: sha1:ebb920a2674eacf3440d36e77883e5ac71f48ea7
-    pristine_git_object: f29691ca59617c890dfe9584679b9dbf56cba1ec
+    last_write_checksum: sha1:994f093bb0e656f1954cd2c3e624c918c6fdec71
+    pristine_git_object: cdf011b58872501d07cce76fc3214358cd7ff0a2
   src/hooks/hooks.ts:
     id: a2463fc6f69b
     last_write_checksum: sha1:7dd975bbcc46a32dd394f86a4652b74ecc70d874
@@ -199,14 +203,18 @@ trackedFiles:
     id: b0057e24ed76
     last_write_checksum: sha1:d124050c7e755c0cce233b9e029afb584ff65201
     pristine_git_object: f3a8de6c021de59c991707946cd294596cae954d
+  src/models/errors/error-schema.ts:
+    id: 16f3570ea229
+    last_write_checksum: sha1:e1545955ea9df53c46ef7c41d9826a6600fe816d
+    pristine_git_object: 2b22e0e78657ff743737c7b5bd0fcb9dba15e159
   src/models/errors/http-client-errors.ts:
     id: 08390231aab8
     last_write_checksum: sha1:994ced121c54fecd0af038ccfb7855fbfd3868ec
     pristine_git_object: b34f612124c797c2a1106b9735708f679a90b74f
   src/models/errors/index.ts:
     id: c4e22507cb83
-    last_write_checksum: sha1:25842712da3d3d0cd1c6a79e83e7695c4c9d7301
-    pristine_git_object: 1a4205d45f3f57d849aaa8c7e4c6e66aacac9a32
+    last_write_checksum: sha1:d4c78fe457a77b2109150fde3112d43bb426ccba
+    pristine_git_object: 5d62c561fb09755caddd97bce17a4a528f54aac4
   src/models/errors/protean-default-error.ts:
     id: 6b9ff0fa0f0e
     last_write_checksum: sha1:539a4f84218b63f06bef2d345e34b50870e34cf1
@@ -318,4 +326,30 @@ examples:
       responses:
         "200":
           application/json: {"statusCode": "204"}
+        "400":
+          application/json: {"status": false, "error_code": 462724, "error_description": "<value>"}
+        "500":
+          application/json: {"status": false, "error_code": 462724, "error_description": "<value>"}
+    Invalid target URL:
+      parameters:
+        header:
+          apikey: "kidNaidREXqRUp9qPsrJcLC1pbYJ7Y0q97dFw3gHTf2gbXQF"
+      requestBody:
+        application/json: {"entityId": "<id>", "programId": "<id>", "requestId": "<id>", "txnType": "<value>"}
+      responses:
+        "400":
+          application/json: {"status": false, "error_code": 400, "error_description": "Invalid target URL"}
+        "500":
+          application/json: {"status": false, "error_code": 400, "error_description": "Invalid target URL"}
+    Decryption Fail:
+      parameters:
+        header:
+          apikey: "kidNaidREXqRUp9qPsrJcLC1pbYJ7Y0q97dFw3gHTf2gbXQF"
+      requestBody:
+        application/json: {"entityId": "<id>", "programId": "<id>", "requestId": "<id>", "txnType": "<value>"}
+      responses:
+        "400":
+          application/json: {"status": false, "error_code": 400, "error_description": "Decryption Fail"}
+        "500":
+          application/json: {"status": false, "error_code": 400, "error_description": "Decryption Fail"}
 examplesVersion: 1.0.2

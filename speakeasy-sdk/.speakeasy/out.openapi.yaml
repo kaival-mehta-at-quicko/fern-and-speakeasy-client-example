@@ -1,0 +1,387 @@
+openapi: "3.1.0"
+info:
+  title: "io-protean"
+  description: ""
+  version: "1.0.0"
+tags:
+  - name: "protean"
+paths:
+  /api/v1/bank-account-validation/bank-validateacct:
+    post:
+      summary: "Bank Account Verification "
+      deprecated: false
+      description: "Verifies Bank Account through Penny Drop, PennyLess and Hybrid."
+      operationId: "verifyBankAccount"
+      tags:
+        - "protean"
+      parameters:
+        - name: "apikey"
+          in: "header"
+          description: ""
+          required: true
+          example: "kidNaidREXqRUp9qPsrJcLC1pbYJ7Y0q97dFw3gHTf2gbXQF"
+          schema:
+            type: "string"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                entityId:
+                  type: "string"
+                  description: "Pre-configured constant values for different environements"
+                programId:
+                  type: "string"
+                  description: "Program id related to this activity. (310 for penny drop)"
+                requestId:
+                  type: "string"
+                  description: "Unique, alphanumeric reference\nnumber. Logic in pre-processing script.\n"
+                txnType:
+                  type: "string"
+                  description: "Defines mode of validation Options: ANY/ IMPS/\nNACH /UPI/ REVERSE/\nREVERSE_INTENT"
+                custName:
+                  type: "string"
+                  description: "Name of account holder to validate."
+                custIfsc:
+                  type: "string"
+                  description: "IFSC of bank account to validate. Required if\ntxnType is other than UPl/ REVERSE\n/ REVERSE_INTENT"
+                custAcctNo:
+                  type: "string"
+                  description: "Account number to validate. Required if txnType is\nother than UPl/ REVERSE\n/ REVERSE_INTENT"
+                custVpa:
+                  type: "string"
+                  description: "VPA to validate if txnType is UPI\nNot Required when txnType=REVERSE_INTENT"
+                custMobileNo:
+                  type: "string"
+                  description: "Mobile number\nRequired if txnType=UPI and VPA is provided."
+                trackingRefNo:
+                  type: "string"
+                  description: "Your system reference number for this user"
+                callbackUrl:
+                  type: "string"
+                  description: "The API endpoint where we will submit updates on\nthe validation status for each requestld.\nRequired if txnType is REVERSE/\nREVERSE_INTENT"
+              required:
+                - "programId"
+                - "requestId"
+                - "txnType"
+                - "entityId"
+            example:
+              entityId: "78bea7b4-1caf-4528-96e4-ec7f9f43f0db"
+              programId: "310"
+              requestId: "{{requestId}}"
+              custIfsc: "SBIN0061411"
+              custAcctNo: "42090969996"
+              txnType: "ANY"
+        required: true
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  statusCode:
+                    type: "string"
+                  status:
+                    type: "string"
+                  acValidationStatus:
+                    type: "string"
+                  message:
+                    type: "string"
+                  requestId:
+                    type: "string"
+                  responseId:
+                    type: "string"
+                  nameAtBank:
+                    type: "string"
+                  custAcctNo:
+                    type: "string"
+                  custIfsc:
+                    type: "string"
+                  bankCode:
+                    type: "string"
+                  methodUsed:
+                    type: "string"
+                  custName:
+                    type: "string"
+                  custVpa:
+                    type: "string"
+                  fuzzylogicScore:
+                    type: "string"
+                  utr:
+                    type: "string"
+                  qrUrlString:
+                    type: "string"
+                required:
+                  - "statusCode"
+              example:
+                statusCode: "TB000"
+                status: "ACCEPTED"
+                acValidationStatus: "ACCOUNT_VALID"
+                message: "SUCCESS"
+                requestId: "eLsgw8yiUQpY30586637"
+                responseId: "RES0ELSGW8YIUQPY30586637"
+                nameAtBank: "Mr. Kaival Hemanshu Mehta"
+                custAcctNo: "42090969996"
+                custIfsc: "SBIN0061411"
+                bankCode: "ESBZ"
+                methodUsed: "IMPS_PENNY_DROP"
+          headers: {}
+        "400":
+          $ref: "#/components/responses/BadRequest"
+          description: ""
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+          description: ""
+        "403":
+          $ref: "#/components/responses/Forbidden"
+          description: ""
+        "415":
+          $ref: "#/components/responses/UnsupportedMediaType"
+          description: ""
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+          description: ""
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+          description: ""
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+          description: ""
+        "502":
+          $ref: "#/components/responses/BadGateway"
+          description: ""
+        "503":
+          $ref: "#/components/responses/ServiceUnavailable"
+          description: ""
+        "504":
+          $ref: "#/components/responses/GatewayTimeout"
+          description: ""
+        "505":
+          $ref: "#/components/responses/VersionNotSupported"
+          description: ""
+      security:
+        - bearer: []
+      x-sandbox-client-name: "Protean"
+webhooks: {}
+components:
+  schemas:
+    ErrorSchema:
+      type: "object"
+      properties:
+        status:
+          type: "boolean"
+        error_code:
+          type: "integer"
+        error_description:
+          type: "string"
+      required:
+        - "status"
+        - "error_code"
+        - "error_description"
+  responses:
+    Forbidden:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorSchema"
+          examples:
+            Code injection/SQL attack:
+              summary: "Code injection/SQL attack"
+              value:
+                status: false
+                error_code: 403
+                error_description: "Forbidden PNOC Security Alert: Code Injection/SQL attack detected"
+            Document structure threat:
+              summary: "Document structure threat"
+              value:
+                status: false
+                error_code: 403
+                error_description: "Forbidden PNOC Security Alert: Document structure threat detected"
+            Code Injection parameters:
+              summary: "Code Injection parameters"
+              value:
+                status: false
+                error_code: 403
+                error_description: "Code Injection parameters script"
+            SQL injection parameters:
+              summary: "SQL injection parameters"
+              value:
+                status: false
+                error_code: 403
+                error_description: "SQL Injection parameters script"
+    Unauthorized:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorSchema"
+          examples:
+            Failed to resolve API Key:
+              summary: "Failed to resolve API Key"
+              value:
+                status: false
+                error_code: 401
+                error_description: "Failed to resolve API Key"
+            Invalid API Key:
+              summary: "Invalid API Key"
+              value:
+                status: false
+                error_code: 401
+                error_description: "Invalid API Key"
+            Invalid API Key for given resouce:
+              summary: "Invalid API Key for given resouce"
+              value:
+                status: false
+                error_code: 401
+                error_description: "Invalid API Key for given resource"
+            Authorization Header Not Found:
+              summary: "Authorization Header Not Found"
+              value:
+                status: false
+                error_code: 401
+                error_description: "Authorization header not found"
+            Invalid Access Token:
+              summary: "Invalid Access Token"
+              value:
+                status: false
+                error_code: 401
+                error_description: "Invalid Access Token"
+    TooManyRequests:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorSchema"
+          examples:
+            Too Many Requests:
+              summary: "Too Many Requests"
+              value:
+                status: false
+                error_code: 429
+                error_description: "Too Many Requests"
+            Quota Exhausted:
+              summary: "Quota Exhausted"
+              value:
+                status: false
+                error_code: 429
+                error_description: "Quota Exhausted"
+    BadRequest:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorSchema"
+          examples:
+            Invalid target URL:
+              summary: "Invalid target URL"
+              value:
+                status: false
+                error_code: 400
+                error_description: "Invalid target URL"
+            Decryption Fail:
+              summary: "Decryption Fail"
+              value:
+                status: false
+                error_code: 400
+                error_description: "Decryption Fail"
+    UnsupportedMediaType:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorSchema"
+          examples:
+            Example 1:
+              summary: "Example 1"
+              value:
+                status: false
+                error_code: 415
+                error_description: "Unsupported Media Type"
+    UnprocessableEntity:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorSchema"
+          examples:
+            Example 1:
+              summary: "Example 1"
+              value:
+                status: false
+                error_code: 422
+                error_description: "Unprocessable Entity"
+    InternalServerError:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorSchema"
+          examples:
+            Internal Service Failure:
+              summary: "Internal Service Failure"
+              value:
+                status: false
+                error_code: 500
+                error_description: "INTERNAL_SERVICE_FAILURE The system had an internal exception"
+    BadGateway:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorSchema"
+          examples:
+            Bad Gateway:
+              summary: "Bad Gateway"
+              value:
+                status: false
+                error_code: 502
+                error_description: "Bad Gateway"
+    ServiceUnavailable:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorSchema"
+          examples:
+            Service Unavailable:
+              summary: "Service Unavailable"
+              value:
+                status: false
+                error_code: 503
+                error_description: "Service Unavailable"
+    GatewayTimeout:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorSchema"
+          examples:
+            Gateway Timeout:
+              summary: "Gateway Timeout"
+              value:
+                status: false
+                error_code: 504
+                error_description: "Gateway Timeout"
+    VersionNotSupported:
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorSchema"
+          examples:
+            Version Not Supported:
+              summary: "Version Not Supported"
+              value:
+                status: false
+                error_code: 505
+                error_description: "Version Not Supported"
+  securitySchemes:
+    bearer:
+      type: "http"
+      scheme: "bearer"
+servers: []
+security: []

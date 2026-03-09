@@ -6,7 +6,7 @@ import { mergeHeaders, mergeOnlyDefinedHeaders } from "../../../../core/headers.
 import * as core from "../../../../core/index.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
-import type * as SandboxApi from "../../../index.js";
+import * as SandboxApi from "../../../index.js";
 
 export declare namespace ProteanClient {
     export type Options = BaseClientOptions;
@@ -26,6 +26,18 @@ export class ProteanClient {
      *
      * @param {SandboxApi.VerifyBankAccountRequest} request
      * @param {ProteanClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link SandboxApi.BadRequestError}
+     * @throws {@link SandboxApi.UnauthorizedError}
+     * @throws {@link SandboxApi.ForbiddenError}
+     * @throws {@link SandboxApi.UnsupportedMediaTypeError}
+     * @throws {@link SandboxApi.UnprocessableEntityError}
+     * @throws {@link SandboxApi.TooManyRequestsError}
+     * @throws {@link SandboxApi.InternalServerError}
+     * @throws {@link SandboxApi.BadGatewayError}
+     * @throws {@link SandboxApi.ServiceUnavailableError}
+     * @throws {@link SandboxApi.GatewayTimeoutError}
+     * @throws {@link SandboxApi.HttpVersionNotSupportedError}
      *
      * @example
      *     await client.protean.verifyBankAccount({
@@ -78,11 +90,69 @@ export class ProteanClient {
         }
 
         if (_response.error.reason === "status-code") {
-            throw new errors.SandboxApiError({
-                statusCode: _response.error.statusCode,
-                body: _response.error.body,
-                rawResponse: _response.rawResponse,
-            });
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new SandboxApi.BadRequestError(
+                        _response.error.body as SandboxApi.ErrorSchema,
+                        _response.rawResponse,
+                    );
+                case 401:
+                    throw new SandboxApi.UnauthorizedError(
+                        _response.error.body as SandboxApi.ErrorSchema,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new SandboxApi.ForbiddenError(
+                        _response.error.body as SandboxApi.ErrorSchema,
+                        _response.rawResponse,
+                    );
+                case 415:
+                    throw new SandboxApi.UnsupportedMediaTypeError(
+                        _response.error.body as SandboxApi.ErrorSchema,
+                        _response.rawResponse,
+                    );
+                case 422:
+                    throw new SandboxApi.UnprocessableEntityError(
+                        _response.error.body as SandboxApi.ErrorSchema,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new SandboxApi.TooManyRequestsError(
+                        _response.error.body as SandboxApi.ErrorSchema,
+                        _response.rawResponse,
+                    );
+                case 500:
+                    throw new SandboxApi.InternalServerError(
+                        _response.error.body as SandboxApi.ErrorSchema,
+                        _response.rawResponse,
+                    );
+                case 502:
+                    throw new SandboxApi.BadGatewayError(
+                        _response.error.body as SandboxApi.ErrorSchema,
+                        _response.rawResponse,
+                    );
+                case 503:
+                    throw new SandboxApi.ServiceUnavailableError(
+                        _response.error.body as SandboxApi.ErrorSchema,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new SandboxApi.GatewayTimeoutError(
+                        _response.error.body as SandboxApi.ErrorSchema,
+                        _response.rawResponse,
+                    );
+                case 505:
+                    throw new SandboxApi.HttpVersionNotSupportedError(
+                        _response.error.body as SandboxApi.ErrorSchema,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.SandboxApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
         }
 
         return handleNonStatusCodeError(
